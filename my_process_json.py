@@ -1,4 +1,5 @@
 from process_json import *
+import numpy as np
 BS = 32
 
 
@@ -94,13 +95,12 @@ class JsonData(JsonDataset):
                     document = remove_entity_marks(
                         datum[DOC_KEY][TITLE_KEY] + " " + datum[DOC_KEY][CONTEXT_KEY]).replace(
                         "\n", " ").lower()
-                    doc_tags = create_tags(datum[DOC_KEY][TITLE_KEY] + " " + datum[DOC_KEY][CONTEXT_KEY],a).replace(
-                        "\n", " ").split()
+                    doc_tags = create_tags(datum[DOC_KEY][TITLE_KEY] + " " + datum[DOC_KEY][CONTEXT_KEY],a).split()
                     fields["p"] = document
                     assert len(doc_tags)==len(fields["p"].split())
                     fields["p_tags"] = doc_tags
                     fields["q"] = remove_entity_marks(qa[QUERY_KEY]).replace("\n", " ").lower()
-                    q_tags = create_tags(qa[QUERY_KEY],a).replace("\n", " ").split()
+                    q_tags = create_tags(qa[QUERY_KEY],a).split()
                     assert len(q_tags)==len(fields["q"].split())
                     fields["q_tags"] = q_tags
 
@@ -138,7 +138,7 @@ class JsonData(JsonDataset):
 
 
 class MyDataReader():
-    def __init__(self,data_path = '/Users/ahmedkoptanmacbook/Imp/ASU/Course Content/Spring 2020/CSE576NLP/Project/clicr_dataset/' + 'train1.0.json',bs=BS):
+    def __init__(self,data_path = '/Users/ahmedkoptanmacbook/Imp/ASU/Course Content/Spring 2020/CSE576NLP/Project/clicr_dataset/' + 'train1.0.json',bs=None):
         self.sample_counter=0
         self.d = JsonData(data_path)
         self.bs = bs
@@ -149,8 +149,9 @@ class MyDataReader():
             if i>=self.sample_counter:
                 data.append(inst)
                 self.sample_counter+= 1
-                if self.sample_counter % self.bs == 0:
-                    return data
+                if self.bs!=None:
+                    if self.sample_counter % self.bs == 0:
+                        return data
         return data
 
 data_reader = MyDataReader()
