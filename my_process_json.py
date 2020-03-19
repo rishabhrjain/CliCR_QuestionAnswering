@@ -13,7 +13,6 @@ def create_tags(text,a):
     for w in text.split():
         w_stripped = w.strip()
         if w_stripped== 'BEG____END':
-            #print('ALARM')
             continue
         if w_stripped.startswith("BEG__") and w_stripped.endswith("__END"):
             concept = w_stripped.split("_")[2]
@@ -101,8 +100,7 @@ class JsonData(JsonDataset):
                         "\n"," ").lower()
                     doc_tags = create_tags(datum[DOC_KEY][TITLE_KEY] + " " + datum[DOC_KEY][CONTEXT_KEY],a).split()
                     fields["p"] = document
-                    if len(doc_tags)!=len(fields["p"].split()):
-                        count+=1
+                    assert len(doc_tags)==len(fields["p"].split())
                     #assert len(doc_tags)==len(fields["p"].split())
                     fields["p_tags"] = doc_tags
                     fields["q"] = remove_entity_marks(qa[QUERY_KEY]).replace("\n", " ").lower()
