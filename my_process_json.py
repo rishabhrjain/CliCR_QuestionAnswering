@@ -12,6 +12,9 @@ def create_tags(text,a):
     inside = False
     for w in text.split():
         w_stripped = w.strip()
+        if w_stripped== 'BEG____END':
+            #print('ALARM')
+            continue
         if w_stripped.startswith("BEG__") and w_stripped.endswith("__END"):
             concept = w_stripped.split("_")[2]
             if concept.lower() == a:
@@ -28,18 +31,18 @@ def create_tags(text,a):
         elif w_stripped.endswith("__END"):
             if not inside:
                 if w_stripped[:-5].lower() == a:
-                    tags.append('I')
+                    tags.append('I') #might be B
                 else:
                     tags.append('O')
             else:
                 concept.append(w_stripped.rsplit("_", 2)[0])
                 if a in ' '.join(concept).lower():
                     tags.append('B')
-                    for _ in concept:
+                    for w in concept:
                         tags.append('I')
                     tags.pop(-1)
                 else:
-                    for _ in concept:
+                    for w in concept:
                         tags.append('O')
                 inside = False
         else:
@@ -63,6 +66,7 @@ class JsonData(JsonDataset):
                           "a", "",
                           "c", [""]}
                 """
+        count = 0
         for datum in self.dataset[DATA_KEY]:
             for qa in datum[DOC_KEY][QAS_KEY]:
                 fields = {}
@@ -94,17 +98,22 @@ class JsonData(JsonDataset):
                     fields["a"] = a
                     document = remove_entity_marks(
                         datum[DOC_KEY][TITLE_KEY] + " " + datum[DOC_KEY][CONTEXT_KEY]).replace(
-                        "\n", " ").lower()
+                        "\n"," ").lower()
                     doc_tags = create_tags(datum[DOC_KEY][TITLE_KEY] + " " + datum[DOC_KEY][CONTEXT_KEY],a).split()
                     fields["p"] = document
-                    assert len(doc_tags)==len(fields["p"].split())
+                    if len(doc_tags)!=len(fields["p"].split()):
+                        count+=1
+                    #assert len(doc_tags)==len(fields["p"].split())
                     fields["p_tags"] = doc_tags
                     fields["q"] = remove_entity_marks(qa[QUERY_KEY]).replace("\n", " ").lower()
                     q_tags = create_tags(qa[QUERY_KEY],a).split()
                     assert len(q_tags)==len(fields["q"].split())
                     fields["q_tags"] = q_tags
 
-                elif stp == "ent": ####INGORE THIS OPTION, ONLY WORKING WITH NO ENT OPTION
+
+
+                ####INGORE THIS OPTION, WE ARE ONLY WORKING WITH NO ENT OPTION
+                elif stp == "ent":
                     c = set(cand)
                     c_q = set(cand_q)
                     a = ""
@@ -129,6 +138,10 @@ class JsonData(JsonDataset):
                         "\n", " ").lower()
                     fields["p"] = document
                     fields["q"] = to_entities(qa[QUERY_KEY]).replace("\n", " ").lower()
+
+
+
+
                 else:
                     raise NotImplementedError
 
@@ -156,4 +169,4 @@ class MyDataReader():
 
 data_reader = MyDataReader()
 batch = data_reader.send_batches()
-print(batch)
+print(batch[0])
