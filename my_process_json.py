@@ -101,7 +101,6 @@ class JsonData(JsonDataset):
                     doc_tags = create_tags(datum[DOC_KEY][TITLE_KEY] + " " + datum[DOC_KEY][CONTEXT_KEY],a).split()
                     fields["p"] = document
                     assert len(doc_tags)==len(fields["p"].split())
-                    #assert len(doc_tags)==len(fields["p"].split())
                     fields["p_tags"] = doc_tags
                     fields["q"] = remove_entity_marks(qa[QUERY_KEY]).replace("\n", " ").lower()
                     q_tags = create_tags(qa[QUERY_KEY],a).split()
@@ -138,8 +137,6 @@ class JsonData(JsonDataset):
                     fields["q"] = to_entities(qa[QUERY_KEY]).replace("\n", " ").lower()
 
 
-
-
                 else:
                     raise NotImplementedError
 
@@ -164,7 +161,3 @@ class MyDataReader():
                     if self.sample_counter % self.bs == 0:
                         return data
         return data
-
-data_reader = MyDataReader()
-batch = data_reader.send_batches()
-print(batch[0])
