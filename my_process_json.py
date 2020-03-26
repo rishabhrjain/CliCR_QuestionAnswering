@@ -17,7 +17,7 @@ def create_tags(text,a):
         if w_stripped.startswith("BEG__") and w_stripped.endswith("__END"):
             concept = w_stripped.split("_")[2]
             if concept.lower() == a:
-                tags.append('B')
+                tags.append('B-ans')
                 if inside:  # something went wrong, leave as is
                     print("Inconsistent markup.")
             else:
@@ -36,9 +36,9 @@ def create_tags(text,a):
             else:
                 concept.append(w_stripped.rsplit("_", 2)[0])
                 if a in ' '.join(concept).lower():
-                    tags.append('B')
+                    tags.append('B-ans')
                     for w in concept:
-                        tags.append('I')
+                        tags.append('I-ans')
                     tags.pop(-1)
                 else:
                     for w in concept:
@@ -55,6 +55,7 @@ def create_tags(text,a):
 class JsonData(JsonDataset):
     def __init__(self, dataset_file):
         super().__init__(dataset_file)
+        self.dataset_counter = 0
 
     def json_to_plain(self, remove_notfound=False, stp="no-ent", include_q_cands=False):
         """
@@ -106,6 +107,7 @@ class JsonData(JsonDataset):
                     q_tags = create_tags(qa[QUERY_KEY],a).split()
                     assert len(q_tags)==len(fields["q"].split())
                     fields["q_tags"] = q_tags
+                    self.dataset_counter += 1
 
 
 
@@ -143,6 +145,8 @@ class JsonData(JsonDataset):
                 fields["id"] = qa[ID_KEY]
 
                 yield fields
+    def get_dataset_counter(self):
+        return self.dataset_counter
 
 
 class MyDataReader():
@@ -161,3 +165,6 @@ class MyDataReader():
                     if self.sample_counter % self.bs == 0:
                         return data
         return data
+    
+    def get_data_size(self):
+        return self.d.get_dataset_counter()
