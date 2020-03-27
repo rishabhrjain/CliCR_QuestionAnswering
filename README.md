@@ -2,6 +2,7 @@
 Medical Reading Comprehension QA 
 
 Requirements:
+
 python > 3.5
 
 Pytorch_Transformer framework
