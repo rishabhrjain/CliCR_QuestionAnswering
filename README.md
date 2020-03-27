@@ -3,6 +3,7 @@ Medical Reading Comprehension QA
 
 Requirements:
 python > 3.5
+
 Pytorch_Transformer framework
 
 Launch the BERT_NER_agave.ipynb after you gitclone the repository.
