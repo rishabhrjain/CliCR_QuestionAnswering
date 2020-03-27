@@ -9,7 +9,7 @@ Launch the BERT_NER_agave.ipynb after you gitclone the repository.
 ( i.e. data_reader = MyDataReader(data_path= DATA_PATHH , bs=10000) in BERT_NER_agave.ipynb )
 4. launch BERT_NER_agave.ipynb 
 
-##Requirements:
+## Requirements:
 
 $ git clone https://github.com/EswarSaiKrish/CliCR-NLP.git
 $ cd DATA_PATH
