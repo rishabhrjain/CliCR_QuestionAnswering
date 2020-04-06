@@ -1,0 +1,4 @@
+Tensorflow>=2.0.0
+torch>=1.0.0
+pytorch-transformers
+pytorch_pretrained_bert
