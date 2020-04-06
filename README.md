@@ -21,21 +21,9 @@ install Python >= 3.6
 
 $ pip install python3
 
-install Tensorflow >= 2.0.0
+install Tensorflow >= 2.0.0, torch >= 1.0.0, pytorch-transformers, pytorch_pretrained_bert
 
-$ pip install "tensorflow>=2.0.0"
-
-install pytorch-transformers / Transformer
-
-$ pip install pytorch-transformers / transformers 
-
-install pytorch_pretrained_bert
-
-$ pip install pytorch_pretrained_bert
-
-install torch
-
-$ pip install torch
+$ pip install -r requirements.txt
 
 In the case that you want to download the dataset, use the following link:
 https://drive.google.com/file/d/1K6QScXlR01RbWqycT9ixafkQQIxH8MhW/view
