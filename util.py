@@ -6,6 +6,7 @@ import xml.etree.ElementTree as ET
 
 import numpy as np
 
+
 KNOWN_TOKEN_TYPES = {
     "org.apache.ctakes.typesystem.type.syntax.NewlineToken",
     "org.apache.ctakes.typesystem.type.syntax.PunctuationToken",
@@ -13,7 +14,7 @@ KNOWN_TOKEN_TYPES = {
     "org.apache.ctakes.typesystem.type.syntax.NumToken",
     "org.apache.ctakes.typesystem.type.syntax.SymbolToken",
     "org.apache.ctakes.typesystem.type.syntax.ContractionToken"
-}
+    }
 
 random.seed(1234)
 
@@ -60,6 +61,7 @@ def get_file_list(topdir, identifiers=None, all_levels=False):
 
 
 def ctakes_to_tok(fh, f_xml):
+
     text = fh.read()
 
     tree = ET.parse(f_xml)
@@ -89,7 +91,7 @@ def ctakes_to_tok(fh, f_xml):
 
         if i in sent_end_idx and not toks.rstrip().endswith(")") and not toks.rstrip().endswith(":"):
             toks += "\n"  # sentence boundary
-
+            
         if i in start_idx:  # new tok
             if c == "\n" and prev_tok == "\n":
                 continue
@@ -126,15 +128,15 @@ def remove_section_markers(fh):
 
 
 def ansi_to_tex(f):
-    with open(f) as infile, open(f + ".tex", "w") as outfile:
+    with open(f) as infile, open(f+".tex", "w") as outfile:
         txt = infile.read()
         new_txt = txt. \
             replace("$", r"\$"). \
-            replace("%", r"\%"). \
-            replace("&", r"\&"). \
-            replace("°", r"$^\circ$"). \
-            replace("×", r"$\times$"). \
-            replace("β", r"$\beta$"). \
+            replace("%", r"\%").\
+            replace("&", r"\&").\
+            replace("°", r"$^\circ$").\
+            replace("×", r"$\times$").\
+            replace("β", r"$\beta$").\
             replace("α", r"$\alpha$"). \
             replace("μ", r"$\mu$"). \
             replace("µ", r"$\mu$"). \
@@ -153,7 +155,7 @@ def ansi_to_tex(f):
             replace("⇓", r"$\downarrow$"). \
             replace("⇑", r"$\uparrow$"). \
             replace("½", r"$1/2$"). \
-            replace("−", r"$-$"). \
+            replace("−", r"$-$").\
             replace("+", r"$+$"). \
             replace("▶", r"$\rightarrow$"). \
             replace("▸", r"$\rightarrow$"). \
@@ -161,11 +163,11 @@ def ansi_to_tex(f):
             replace("→", r"$\rightarrow$"). \
             replace("±", r"$\pm$"). \
             replace("τ", r"$\tau$"). \
-            replace("″", r"\""). \
-            replace("\x1b[01;31m", r"\textbf{ "). \
+            replace("″", r"\"").\
+            replace("\x1b[01;31m", r"\textbf{ ").\
             replace("\x1b[01;32m", r"\textbf{ "). \
             replace("BEG__", r"\textbf{ "). \
-            replace("__END", r"} "). \
+            replace("__END", r"} ").\
             replace("\x1b[0m", "} ")
 
         outfile.write(r"""\documentclass[a4paper,10pt]{article}
