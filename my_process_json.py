@@ -150,12 +150,12 @@ class JsonData(JsonDataset):
 
 
 class MyDataReader():
-    def __init__(self,data_path = '/Users/ahmedkoptanmacbook/Imp/ASU/Course Content/Spring 2020/CSE576NLP/Project/clicr_dataset/' + 'train1.0.json',bs=None):
+    def __init__(self,data_path = '/Users/ahmedkoptanmacbook/Imp/ASU/Course Content/Spring 2020/CSE576NLP/Project/clicr_dataset/' + 'dev1.0.json',bs=None):
         self.sample_counter=0
         self.d = JsonData(data_path)
         self.bs = bs
 
-    def send_batches(self,remove_notfound = True):
+    def send_data(self,remove_notfound = True):
         data = []
         for i, inst in enumerate(self.d.json_to_plain(remove_notfound=remove_notfound, stp='no-ent')):
             if i>=self.sample_counter:
@@ -168,3 +168,4 @@ class MyDataReader():
     
     def get_data_size(self):
         return self.d.get_dataset_counter()
+    
