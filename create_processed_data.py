@@ -1,6 +1,5 @@
 import os
 import json
-import pandas as pd
 import numpy as np
 from pytorch_transformers import BertModel,BertTokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -8,7 +7,7 @@ from torch.utils.data import TensorDataset, DataLoader, RandomSampler, Sequentia
 import torch
 from my_process_json import *
 from pytorch_pretrained_bert import BertTokenizer, BertConfig
-from keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 import copy
 
 
@@ -23,7 +22,7 @@ batch_size = 16
 class DataProcessor():
     
     def __init__(self,filename = 'train', size = None, tokenizer=None):
-        data_reader = MyDataReader('/home/akobtan/NLP_Project/Project/clicr_dataset/'+filename+'1.0.json',bs=size)
+        data_reader = MyDataReader('/home/jesus/Downloads/NLP_Project/clicr_dataset/'+filename+'1.0.json',bs=size)
         mydata = data_reader.send_data()
         self.dataset_size = data_reader.get_data_size()
         self.paragraphs = [e['p'] for e in mydata].copy()
