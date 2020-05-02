@@ -9,7 +9,7 @@ from my_process_json import *
 from pytorch_pretrained_bert import BertTokenizer, BertConfig
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import copy
-
+from torch.utils import data
 
 #CONSTANTS
 DATASET_SIZE = 53914
@@ -19,17 +19,19 @@ batch_size = 16
 
 
 
-class DataProcessor():
+class DataProcessor(data.Dataset):
     
     def __init__(self,filename = 'train', size = None, tokenizer=None):
         data_reader = MyDataReader('/home/jesus/Downloads/NLP_Project/clicr_dataset/'+filename+'1.0.json',bs=size)
-        mydata = data_reader.send_data()
+        mydata = data_reader.send_batches()
         self.dataset_size = data_reader.get_data_size()
         self.paragraphs = [e['p'] for e in mydata].copy()
         self.paragraph_tags = [e['p_tags'] for e in mydata].copy()
         self.queries = [e['q'] for e in mydata].copy()
         self.query_tags = [e['q_tags'] for e in mydata].copy()
-        
+
+        assert all(len(self.paragraphs) == len(y) for y in [self.paragraph_tags, self.queries, self.query_tags])
+
         #creating embeddings
         self.tags_vals = ['B-ans','I-ans','O']
         self.tag2idx = {t: i for i, t in enumerate(self.tags_vals)}
@@ -41,7 +43,12 @@ class DataProcessor():
             self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
         else:
             self.tokenizer = tokenizer
-         
+
+    def __getitem__(self, index):
+        return tuple(sample[index] for sample in [self.paragraphs, self.paragraph_tags, self.queries, self.query_tags])
+
+    def __len__(self):
+        return len(self.paragraphs)
         
         
     def create_tokenizedtexts_and_labels(self):
