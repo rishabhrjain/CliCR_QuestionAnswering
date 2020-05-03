@@ -155,7 +155,7 @@ class MyDataReader():
         self.d = JsonData(data_path)
         self.bs = bs
 
-    def send_data(self,remove_notfound = True):
+    def send_batches(self,remove_notfound = True):
         data = []
         for i, inst in enumerate(self.d.json_to_plain(remove_notfound=remove_notfound, stp='no-ent')):
             if i>=self.sample_counter:
@@ -168,4 +168,3 @@ class MyDataReader():
     
     def get_data_size(self):
         return self.d.get_dataset_counter()
-    
