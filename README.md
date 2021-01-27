@@ -11,7 +11,7 @@ Launch the BERT_NER_agave.ipynb after you gitclone the repository.
 
 ## Requirements:
 
-$ git clone https://github.com/EswarSaiKrish/CliCR-NLP.git
+After cloning the repo,
 
 $ cd DATA_PATH
 
