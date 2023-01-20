@@ -17,12 +17,12 @@ MAX_LEN = 424
 SEED = 520
 batch_size = 16
 
-
+DATA_DIR = './'
 
 class DataProcessor(data.Dataset):
     
     def __init__(self,filename = 'train', size = None, tokenizer=None):
-        data_reader = MyDataReader('/home/jesus/Downloads/NLP_Project/clicr_dataset/'+filename+'1.0.json',bs=size)
+        data_reader = MyDataReader(DATA_DIR + filename+'1.0.json', bs=size)
         mydata = data_reader.send_batches()
         self.dataset_size = data_reader.get_data_size()
         self.paragraphs = [e['p'] for e in mydata].copy()

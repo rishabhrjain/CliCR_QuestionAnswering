@@ -150,7 +150,7 @@ class JsonData(JsonDataset):
 
 
 class MyDataReader():
-    def __init__(self,data_path = '/Users/ahmedkoptanmacbook/Imp/ASU/Course Content/Spring 2020/CSE576NLP/Project/clicr_dataset/' + 'dev1.0.json',bs=None):
+    def __init__(self, data_path, bs=None):
         self.sample_counter=0
         self.d = JsonData(data_path)
         self.bs = bs
