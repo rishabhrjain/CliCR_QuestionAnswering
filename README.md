@@ -1,6 +1,10 @@
 # CliCR-NLP
 Medical Reading Comprehension QA 
 
+Goal: 
+Build a model that ouputs entities given a passage and a query. In this case, the passage a paragraph about a disease, treatment, etc and a query is a question related to the passage. 
+The model needs to output an answer (entities) based on the passage and the query. The entities can be the name of the disease, treatment, etc. 
+
 Steps:
 
 #### 1. Setup
